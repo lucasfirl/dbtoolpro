@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
+﻿using System.Data.SqlClient;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DBTTool
 {
-    /// <summary>
-    /// Interaktionslogik für Page1.xaml
-    /// </summary>
     public partial class Page1 : Page
     {
+
+        MainWindow mainWindow = MainWindow.GetMainWindow();
         public Page1()
         {
             InitializeComponent();
@@ -28,13 +17,41 @@ namespace DBTTool
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string cs = "Server = " + dbsource.Text + "; Database = " + dbname.Text + "; User ID = " + dbuser.Text + "; Password = Password; Trusted_Connection = true";
+            string cs = @"Data Source = " + dbsource.Text + "; Initial Catalog = " + dbname.Text + "; User ID = " + dbuser.Text + "; Password = " + dbpw.Password + ";";
 
             SqlConnection conn = new SqlConnection(cs);
-            //conn.Open();
+            StringBuilder errorMessages = new StringBuilder();
+
+            try
+            {
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+                conn.Open();
+            }
+            catch (SqlException ex)
+            {
+                for (int i = 0; i < ex.Errors.Count; i++)
+                {
+                    errorMessages.Append("Index #" + i + "\n" +
+                        "Nachricht: " + ex.Errors[i].Message + "\n" +
+                        "LineNumber: " + ex.Errors[i].LineNumber + "\n" +
+                        "Source: " + ex.Errors[i].Source + "\n" +
+                        "Procedure: " + ex.Errors[i].Procedure + "\n");
+                }
+                MessageBox.Show(errorMessages.ToString());
+            }
 
 
-            MainWindow.BackToMain();
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+            if (conn.State.ToString() == "Open")
+            {
+                mainWindow.BackToMain(cs);
+                conn.Close();
+            }
+        }
+
+        private void Button_Skip(object sender, RoutedEventArgs e)
+        {
+            mainWindow.BackToMain("skip");
         }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DBTTool
 {
     public class Methoden
     {
+        //Berechnen der Downloadzeit
         public static double BerechneDownloadZeit(int einheit, double datensize, double internetspeed)
         {
             switch (einheit)
@@ -30,11 +29,13 @@ namespace DBTTool
                     break;
             }
 
+            //Dividiert die Dateigröße durch die Downloadzeit
             return datensize / internetspeed;
         }
 
         public static string Speedcheck()
         {
+            //Ermittelt die Internetgeschwindigkeit anhand einer Zeitmessung, des Download von genau 25 Millionen Bytes
             Stopwatch watch = new Stopwatch();
 
             using (var client = new WebClient())
@@ -47,6 +48,31 @@ namespace DBTTool
 
             var speed = Math.Round(25000000 / watch.Elapsed.TotalSeconds / (1000 * 1000), 2);
             return speed.ToString();
+        }
+
+        public static string CheckDBSize(string cs)
+        {
+            //Erfassen der Datenbank Größe durch die Query sp_saceused
+            SqlConnection Conn = new SqlConnection(cs);
+            SqlCommand testCMD = new SqlCommand("sp_spaceused", Conn);
+
+            testCMD.CommandType = CommandType.StoredProcedure;
+
+            Conn.Open();
+
+            SqlDataReader reader = testCMD.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    string sum = reader["database_size"].ToString().Substring(0, reader["database_size"].ToString().IndexOf(" "));
+                    return sum.Replace(".", ",");
+                }
+            }
+
+
+            return "0";
         }
     }
 }

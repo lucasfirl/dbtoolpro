@@ -14,12 +14,20 @@
         <Label Content="Datenbank Name" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Height="39" Width="146"/>
         <Label Content="Username" HorizontalAlignment="Left" Margin="10,162,0,0" VerticalAlignment="Top" Height="40" Width="146"/>
         <Label Content="Passwort" HorizontalAlignment="Left" Margin="10,211,0,0" VerticalAlignment="Top" Height="39" Width="146"/>
-        <TextBox x:Name="dbpw" HorizontalAlignment="Left" Height="25" Margin="16,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348"/>
-        <TextBox x:Name="dbuser" HorizontalAlignment="Left" Height="25" Margin="16,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348"/>
-        <TextBox x:Name="dbname" HorizontalAlignment="Left" Height="25" Margin="16,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348"/>
         <TextBox x:Name="dbsource" HorizontalAlignment="Left" Height="25" Margin="16,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348"/>
-        <Label Content="Bitte geben Sie Ihre Datenbank Verbindungsdaten ein." HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Height="73" Width="354"/>
-        <Button Content="Button" HorizontalAlignment="Left" Height="48" Margin="118,262,0,0" VerticalAlignment="Top" Width="137" Click="Button_Click"/>
+        <TextBox x:Name="dbname" HorizontalAlignment="Left" Height="25" Margin="16,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348"/>
+        <TextBox x:Name="dbuser" HorizontalAlignment="Left" Height="25" Margin="16,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="348"/>
+        <PasswordBox x:Name="dbpw" HorizontalAlignment="Left" Margin="16,232,0,0" VerticalAlignment="Top" Width="346" Height="25"/>
+        <Label x:Name="titlelabel" Content="Bitte geben Sie Ihre Datenbank Verbindungsdaten ein." HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Height="73" Width="354"/>
+        <Button x:Name="btnnext" Content="Weiter" HorizontalAlignment="Left" Height="48" Margin="79,262,0,0" VerticalAlignment="Top" Width="137" Click="Button_Click"/>
         <DockPanel HorizontalAlignment="Left" Height="100" LastChildFill="False" Margin="-50,90,0,0" VerticalAlignment="Top" Width="100"/>
+
+        <Button Content="Überspringen" Click="Button_Skip" Margin="261,277,20,-340" Height="417" FontStyle="Italic">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ContentPresenter />
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Page>

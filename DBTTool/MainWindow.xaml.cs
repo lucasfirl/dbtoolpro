@@ -1,33 +1,62 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Net;
 using System.Windows;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Text.RegularExpressions;
 
 namespace DBTTool
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private object content;
+        private string connectionString;
         public MainWindow()
         {
             InitializeComponent();
-            Content = new Page1();
             content = Content;
+            Content = new Page1();
         }
-         
-        public void BackToMain()
+
+        public void BackToMain(string cs)
         {
             Content = content;
+            connectionString = cs;
+
+            if (cs == "skip")
+            {
+                sizebtn.IsEnabled = false;
+            }
+            else
+            {
+                sizebtn.IsEnabled = true;
+            }
+        }
+
+        public static MainWindow GetMainWindow()
+        {
+            MainWindow mainWindow = null;
+
+            foreach (Window window in Application.Current.Windows)
+            {
+                Type type = typeof(MainWindow);
+                if (window != null && window.DependencyObjectType.Name == type.Name)
+                {
+                    mainWindow = (MainWindow)window;
+                    if (mainWindow != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+
+            return mainWindow;
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (speedtext.Text != "" && sizetext.Text != "")
+            if (speedtext.Text != "" && sizetext.Text != "" && Regex.Matches(speedtext.Text, @"[a-zA-Z]").Count < 1 && Regex.Matches(sizetext.Text, @"[a-zA-Z]").Count < 1)
             {
                 double dbsize = Convert.ToDouble(sizetext.Text);
                 double espeed = Convert.ToDouble(speedtext.Text) / 8;
@@ -45,17 +74,32 @@ namespace DBTTool
             }
             else
             {
-                MessageBox.Show("Bitte gebe in beiden Boxen einen Wert an");
+                MessageBox.Show("Bitte gebe in beiden Boxen einen Wert an.\n\nOder Überprüfe auf Buchstaben.");
             }
         }
 
-        private async void Button_AutomAsync(object sender, RoutedEventArgs e)
+        private async void Button_SizeAutomAsync(object sender, RoutedEventArgs e)
+        {
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+            sizebtn.IsEnabled = false;
+            sizetext.Text = await Task.Run(() => Methoden.CheckDBSize(connectionString));
+            combo.SelectedIndex = 2;
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+            sizebtn.IsEnabled = true;
+        }
+
+        private async void Button_InternetAutomAsync(object sender, RoutedEventArgs e)
         {
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             speedbtn.IsEnabled = false;
             speedtext.Text = await Task.Run(() => Methoden.Speedcheck());
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
             speedbtn.IsEnabled = true;
+        }
+
+        private void Button_Return(object sender, RoutedEventArgs e)
+        {
+            Content = new Page1();
         }
     }
 }

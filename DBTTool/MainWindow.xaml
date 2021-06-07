@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DBTTool"
         mc:Ignorable="d"
-        Title="Datenbank Transfer Rechner" Height="354" Width="382" ResizeMode="NoResize">
+        Title="Datenbank Transfer Rechner Pro" Height="354" Width="382" ResizeMode="NoResize" Icon="icon.png">
     <Grid Margin="0,0,2,0">
-        <TextBox x:Name="sizetext" HorizontalAlignment="Left" Height="31" Margin="49,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194"/>
-        <ComboBox x:Name="combo" HorizontalAlignment="Left" Height="31" Margin="248,79,0,0" VerticalAlignment="Top" Width="68">
+        <TextBox x:Name="sizetext" HorizontalAlignment="Left" Height="31" Margin="49,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="121"/>
+        <ComboBox x:Name="combo" HorizontalAlignment="Left" Height="31" Margin="175,79,0,0" VerticalAlignment="Top" Width="68">
             <ComboBoxItem Content="Byte" HorizontalAlignment="Left" Width="66"/>
             <ComboBoxItem Content="KB" HorizontalAlignment="Left" Width="66"/>
             <ComboBoxItem Content="MB" HorizontalAlignment="Left" Width="66"/>
@@ -20,7 +20,9 @@
         <Label x:Name="resultlabel" Content="Geschätze Wartezeit:" HorizontalAlignment="Left" Height="29" Margin="44,248,0,0" VerticalAlignment="Top" Width="321" FontSize="14"/>
         <Label Content="Größe der Datenbank" HorizontalAlignment="Left" Height="27" Margin="44,55,0,0" VerticalAlignment="Top" Width="309"/>
         <Label Content="Internet Anbindung in Mbit/s" HorizontalAlignment="Left" Height="27" Margin="44,124,0,0" VerticalAlignment="Top" Width="309"/>
-        <Button x:Name="speedbtn" Content="Autom." HorizontalAlignment="Left" Height="31" Margin="248,145,0,0" VerticalAlignment="Top" Width="68" Click="Button_AutomAsync"/>
-
+        <Button x:Name="speedbtn" Content="Autom." HorizontalAlignment="Left" Height="31" Margin="248,145,0,0" VerticalAlignment="Top" Width="68" Click="Button_InternetAutomAsync"/>
+        <Button x:Name="sizebtn" Content="Autom." HorizontalAlignment="Left" Height="31" Margin="248,79,0,0" VerticalAlignment="Top" Width="68" Click="Button_SizeAutomAsync"/>
+        <Image HorizontalAlignment="Left" Height="23" Margin="49,10,0,0" VerticalAlignment="Top" Width="31" Source="left-arrow.png" RenderTransformOrigin="1.581,0.522"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="49,13,0,0" VerticalAlignment="Top" Width="31" Opacity="0" Click="Button_Return"/>
     </Grid>
 </Window>
