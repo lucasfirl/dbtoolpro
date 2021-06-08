@@ -61,6 +61,8 @@ namespace DBTTool
             Conn.Open();
 
             SqlDataReader reader = testCMD.ExecuteReader();
+            
+            Conn.Close();
 
             if (reader.HasRows)
             {
