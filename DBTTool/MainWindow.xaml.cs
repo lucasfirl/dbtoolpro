@@ -82,8 +82,29 @@ namespace DBTTool
         {
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             sizebtn.IsEnabled = false;
-            sizetext.Text = await Task.Run(() => Methoden.CheckDBSize(connectionString));
-            combo.SelectedIndex = 2;
+            string result = await Task.Run(() => Methoden.CheckDBSize(connectionString));
+            string resulteinheit = result.Substring(result.IndexOf(" ") + 1);
+
+            switch (resulteinheit)
+            {
+                case "B": // Byte
+                    combo.SelectedIndex = 0;
+                    break;
+                case "KB": // KB
+                    combo.SelectedIndex = 1;
+                    break;
+                case "MB": // MB
+                    combo.SelectedIndex = 2;
+                    break;
+                case "GB": // GB
+                    combo.SelectedIndex = 3;
+                    break;
+                case "TB": // TB
+                    combo.SelectedIndex = 4;
+                    break;
+            }
+
+            sizetext.Text = result.Substring(0, result.ToString().IndexOf(" "));
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
             sizebtn.IsEnabled = true;
         }

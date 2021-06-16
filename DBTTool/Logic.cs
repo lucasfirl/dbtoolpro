@@ -66,7 +66,7 @@ namespace DBTTool
             {
                 while (reader.Read())
                 {
-                    string sum = reader["database_size"].ToString().Substring(0, reader["database_size"].ToString().IndexOf(" "));
+                    string sum = reader["database_size"].ToString();
                     return sum.Replace(".", ",");
                 }
             }
